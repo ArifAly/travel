@@ -952,3 +952,16 @@ if (_storedTours) {
 }
 
 renderTours();
+
+// Auto-open tour from URL param: tours.html?tour=2
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const tourParam = parseInt(params.get('tour'));
+  if (tourParam && TOURS.find(t => t.id === tourParam)) {
+    openTour(tourParam);
+    setTimeout(() => {
+      const detail = document.getElementById('tourDetailSection');
+      if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+})();
