@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WonderVoyage Admin Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fas fa-globe"></i>
+      <span>WonderVoyage</span>
+    </div>
+    <p class="login-subtitle">Admin Portal</p>
+    <div class="login-form">
+      <div class="form-group">
+        <label for="loginUser"><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="loginPass"><i class="fas fa-lock"></i> Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
+            onkeydown="if(event.key==='Enter')adminLogin()" />
+          <button type="button" class="pass-toggle" onclick="togglePassVis()" title="Show/hide password">
+            <i class="fas fa-eye" id="passEyeIcon"></i>
+          </button>
+        </div>
+      </div>
+      <div id="loginError" class="login-error" style="display:none;"></div>
+      <button class="btn btn-primary btn-full" onclick="adminLogin()">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+    </div>
+    <div class="login-footer">WonderVoyage &copy; 2026</div>
+  </div>
+</div>
+
+<!-- ===================== DASHBOARD ===================== -->
+<div id="dashboard" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <i class="fas fa-globe"></i>
+      <span>WonderVoyage</span>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <strong>Admin</strong>
+        <span>Administrator</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </a>
+      <a class="nav-item" data-section="tours" onclick="showSection('tours')">
+        <i class="fas fa-map-marked-alt"></i> Tours
+      </a>
+      <a class="nav-item" data-section="availability" onclick="showSection('availability')">
+        <i class="fas fa-calendar-alt"></i> Availability
+      </a>
+      <a class="nav-item" data-section="bookings" onclick="showSection('bookings')">
+        <i class="fas fa-suitcase"></i> Bookings
+      </a>
+      <a class="nav-item" data-section="settings" onclick="showSection('settings')">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+    </nav>
+    <button class="sidebar-logout" onclick="adminLogout()">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </aside>
+
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="header-left">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1 class="page-title" id="pageTitle">Dashboard</h1>
+    </div>
+    <div class="header-right">
+      <div class="notif-wrap">
+        <button class="notif-btn" onclick="showSection('bookings')">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+        </button>
+      </div>
+      <span class="header-admin-name"><i class="fas fa-user-circle"></i> Admin</span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ===== SECTION: Dashboard ===== -->
+    <section id="sec-dashboard" class="admin-section">
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Total Tours</span>
+            <strong class="stat-value" id="stat-tours">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-suitcase"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Total Bookings</span>
+            <strong class="stat-value" id="stat-bookings">0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">This Month Revenue</span>
+            <strong class="stat-value" id="stat-revenue">$0</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Pending Bookings</span>
+            <strong class="stat-value" id="stat-pending">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-history"></i> Recent Bookings</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table" id="recentBookingsTable">
+            <thead>
+              <tr>
+                <th>Ref</th>
+                <th>Guest</th>
+                <th>Tour</th>
+                <th>Departure</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentBookingsTbody">
+              <tr><td colspan="6" class="empty-row">No bookings yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION: Tours ===== -->
+    <section id="sec-tours" class="admin-section" style="display:none;">
+      <div class="section-header">
+        <h2>Tour Packages</h2>
+        <button class="btn btn-success" onclick="openTourModal(null)">
+          <i class="fas fa-plus"></i> Add New Tour
+        </button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="admin-table" id="toursAdminTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tour Name</th>
+                <th>Category</th>
+                <th>Destination</th>
+                <th>Duration</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="toursAdminTbody">
+              <tr><td colspan="8" class="empty-row">Loading tours...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION: Availability ===== -->
+    <section id="sec-availability" class="admin-section" style="display:none;">
+
+      <!-- Header -->
+      <div class="section-header">
+        <h2><i class="fas fa-calendar-alt"></i> Availability Manager</h2>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-success" id="createSessionBtn" onclick="openCreateSession()">
+            <i class="fas fa-plus"></i> Create New Session
+          </button>
+          <button class="btn btn-secondary" onclick="exportAvailabilityCSV()">
+            <i class="fas fa-download"></i> Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Tour Selector + Stats -->
+      <div class="card avail-top-bar">
+        <div class="avail-tour-select-wrap">
+          <i class="fas fa-map-marked-alt"></i>
+          <label for="availTourSelect">View Tour:</label>
+          <select id="availTourSelect" onchange="loadTourAvailability(parseInt(this.value))"></select>
+        </div>
+        <div class="avail-stats-row">
+          <div class="avail-stat-chip chip-available"><i class="fas fa-check-circle"></i> Available <strong id="cnt-available">0</strong></div>
+          <div class="avail-stat-chip chip-limited"><i class="fas fa-exclamation-circle"></i> Limited <strong id="cnt-limited">0</strong></div>
+          <div class="avail-stat-chip chip-soldout"><i class="fas fa-times-circle"></i> Sold Out <strong id="cnt-soldout">0</strong></div>
+          <div class="avail-stat-chip chip-total"><i class="fas fa-layer-group"></i> Total Slots <strong id="cnt-total">0</strong></div>
+        </div>
+      </div>
+
+      <!-- ============ CREATE NEW SESSION PANEL ============ -->
+      <div id="createSessionPanel" class="create-session-panel" style="display:none;">
+        <div class="csf-layout">
+
+          <!-- LEFT: Form -->
+          <div class="csf-form-col">
+            <div class="csf-form-header">
+              <h3><i class="fas fa-calendar-plus"></i> Create New Session</h3>
+              <button class="csf-close-btn" type="button" onclick="closeCreateSession()" title="Close">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <!-- Product + Capacity -->
+            <div class="csf-row-2">
+              <div class="csf-field">
+                <label class="csf-label">Select Product <span class="req">*</span></label>
+                <select id="csfProduct" class="csf-select" onchange="csfUpdatePriceTourName()"></select>
+              </div>
+              <div class="csf-field">
+                <label class="csf-label">Availability capacity <span class="req">*</span></label>
+                <input type="number" id="csfCapacity" class="csf-input" min="1" max="999" placeholder="12" value="12" />
+              </div>
+            </div>
+
+            <!-- Date Range -->
+            <div class="csf-section-label"><i class="fas fa-calendar-alt"></i> Set Date Range</div>
+            <div class="csf-row-2">
+              <div class="csf-field">
+                <label class="csf-label">From <span class="req">*</span></label>
+                <input type="date" id="csfFrom" class="csf-input" onchange="csfUpdateDayBlocks()" />
+              </div>
+              <div class="csf-field">
+                <label class="csf-label">To <span class="req">*</span></label>
+                <input type="date" id="csfTo" class="csf-input" onchange="csfUpdateDayBlocks()" />
+              </div>
+            </div>
+
+            <!-- Available Days & Time -->
+            <div class="csf-section-label"><i class="fas fa-clock"></i> Available Days &amp; Time</div>
+            <div id="csfDayBlocks" class="csf-day-blocks">
+              <p class="csf-hint"><i class="fas fa-arrow-up"></i> Select a date range above to configure departure times per day.</p>
+            </div>
+
+            <!-- Copy to selected days -->
+            <div id="csfCopyRow" class="csf-copy-row" style="display:none;">
+              <span class="csf-copy-hint">Configure one day's time slots, check the other days, then:</span>
+              <button class="btn btn-secondary btn-sm" type="button" onclick="csfCopyToSelectedDays()">
+                <i class="fas fa-copy"></i> Copy to Selected Days
+              </button>
+            </div>
+
+            <!-- Price -->
+            <div class="csf-section-label"><i class="fas fa-dollar-sign"></i> Price</div>
+            <div class="csf-price-block">
+              <div class="csf-price-tour-name" id="csfPriceTourName">—</div>
+              <div class="csf-price-tiers">
+                <div class="csf-price-tier">
+                  <label>Adult</label>
+                  <div class="csf-price-input-wrap">
+                    <span class="csf-currency">US$</span>
+                    <input type="number" id="csfPriceAdult" class="csf-price-inp" min="0" step="0.01" placeholder="0.00" />
+                  </div>
+                </div>
+                <div class="csf-price-tier">
+                  <label>Child</label>
+                  <div class="csf-price-input-wrap">
+                    <span class="csf-currency">US$</span>
+                    <input type="number" id="csfPriceChild" class="csf-price-inp" min="0" step="0.01" placeholder="0.00" />
+                  </div>
+                </div>
+                <div class="csf-price-tier">
+                  <label>Infant</label>
+                  <div class="csf-price-input-wrap">
+                    <span class="csf-currency">US$</span>
+                    <input type="number" id="csfPriceInfant" class="csf-price-inp" min="0" step="0.01" placeholder="0.00" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="csf-section-label"><i class="fas fa-sticky-note"></i> Notes</div>
+            <textarea id="csfNotes" class="csf-notes" rows="3" placeholder="Additional notes (e.g. Peak season pricing, Airport pickup included...)"></textarea>
+
+            <!-- Actions -->
+            <div class="csf-actions">
+              <button class="btn btn-secondary" type="button" onclick="closeCreateSession()">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+              <button class="btn btn-success" type="button" onclick="csfCreateAvailability()">
+                <i class="fas fa-check-circle"></i> Create Availability
+              </button>
+            </div>
+            <div id="csfResult" class="csf-result" style="display:none;"></div>
+          </div>
+
+          <!-- RIGHT: Help Panel -->
+          <div class="csf-help-col">
+            <div class="csf-help-panel">
+              <h4 class="csf-help-title"><i class="fas fa-question-circle"></i> Help</h4>
+              <div class="help-accordion">
+
+                <div class="help-item open">
+                  <button class="help-item-btn" type="button" onclick="toggleHelpItem(this)">
+                    <span><i class="fas fa-info-circle"></i> What is Set Availability?</span>
+                    <i class="fas fa-chevron-down help-chevron" style="transform:rotate(180deg)"></i>
+                  </button>
+                  <div class="help-item-body" style="display:block;">
+                    <p>Setting availability defines when a tour departure is open for bookings. Select a product, set a date range, choose which days of the week depart, and define time slots per day.</p>
+                  </div>
+                </div>
+
+                <div class="help-item">
+                  <button class="help-item-btn" type="button" onclick="toggleHelpItem(this)">
+                    <span><i class="fas fa-users"></i> Number of Guests Allowed?</span>
+                    <i class="fas fa-chevron-down help-chevron"></i>
+                  </button>
+                  <div class="help-item-body" style="display:none;">
+                    <p>The "Availability capacity" sets the maximum guests per time slot. Once bookings reach this limit, the slot automatically shows as Sold Out.</p>
+                  </div>
+                </div>
+
+                <div class="help-item">
+                  <button class="help-item-btn" type="button" onclick="toggleHelpItem(this)">
+                    <span><i class="fas fa-clock"></i> What is set time?</span>
+                    <i class="fas fa-chevron-down help-chevron"></i>
+                  </button>
+                  <div class="help-item-body" style="display:none;">
+                    <p>Each departure day can have multiple time slots (e.g. 08:00–17:00 and 14:00–23:00). Use "+ Add Slot" to add more times per day. Guests choose their preferred time when booking.</p>
+                  </div>
+                </div>
+
+                <div class="help-item">
+                  <button class="help-item-btn" type="button" onclick="toggleHelpItem(this)">
+                    <span><i class="fas fa-copy"></i> Copy to Selected Days?</span>
+                    <i class="fas fa-chevron-down help-chevron"></i>
+                  </button>
+                  <div class="help-item-body" style="display:none;">
+                    <p>Check the days you want to apply the same schedule to, configure one day's time slots, then click "Copy to Selected Days" to apply it instantly to all checked days.</p>
+                  </div>
+                </div>
+
+                <div class="help-item">
+                  <button class="help-item-btn" type="button" onclick="toggleHelpItem(this)">
+                    <span><i class="fas fa-headset"></i> Need Help? Contact Support</span>
+                    <i class="fas fa-chevron-down help-chevron"></i>
+                  </button>
+                  <div class="help-item-body" style="display:none;">
+                    <p>For assistance, refer to the setup guides in your <code>setup/</code> folder, or contact your WonderVoyage administrator.</p>
+                  </div>
+                </div>
+
+              </div><!-- /help-accordion -->
+            </div>
+          </div>
+
+        </div><!-- /csf-layout -->
+      </div><!-- /createSessionPanel -->
+
+      <!-- Slots Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-list-alt"></i> All Departure Slots</h3>
+          <div class="avail-table-filters">
+            <input type="text" id="availSearch" placeholder="Filter by date or notes..." oninput="renderAvailTable()" />
+            <select id="availFilterStatus" onchange="renderAvailTable()">
+              <option value="">All Statuses</option>
+              <option value="available">Available</option>
+              <option value="limited">Limited</option>
+              <option value="sold-out">Sold Out</option>
+            </select>
+            <button class="btn btn-danger btn-sm" onclick="deleteAllForTour()" title="Delete all slots for this tour">
+              <i class="fas fa-trash"></i> Clear Tour
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Spots</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="availTbody">
+              <tr><td colspan="8" class="empty-row">Select a tour above to manage its availability.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== SECTION: Bookings ===== -->
+    <section id="sec-bookings" class="admin-section" style="display:none;">
+      <div class="section-header">
+        <h2>Bookings &amp; Orders</h2>
+      </div>
+
+      <div class="card bookings-filters">
+        <div class="filter-btns">
+          <button class="btn btn-filter active" data-filter="all" onclick="setBookingFilter('all', this)">All</button>
+          <button class="btn btn-filter" data-filter="pending" onclick="setBookingFilter('pending', this)">Pending</button>
+          <button class="btn btn-filter" data-filter="confirmed" onclick="setBookingFilter('confirmed', this)">Confirmed</button>
+          <button class="btn btn-filter" data-filter="cancelled" onclick="setBookingFilter('cancelled', this)">Cancelled</button>
+        </div>
+        <input type="text" id="bookingSearch" placeholder="&#xf002; Search by name, email, ref, tour..."
+          style="font-family:'Font Awesome 6 Free',Poppins,sans-serif;"
+          oninput="renderBookings(currentBookingFilter)" />
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="admin-table" id="bookingsTable">
+            <thead>
+              <tr>
+                <th>Ref</th>
+                <th>Received</th>
+                <th>Guest Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Tour</th>
+                <th>Departure</th>
+                <th>Travelers</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTbody">
+              <tr><td colspan="11" class="empty-row">No bookings yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION: Settings ===== -->
+    <section id="sec-settings" class="admin-section" style="display:none;">
+      <div class="section-header">
+        <h2>Settings</h2>
+      </div>
+
+      <div class="settings-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-key"></i> Change Password</h3>
+          </div>
+          <div class="settings-form">
+            <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" id="settingCurrentPass" placeholder="Current password" />
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="settingNewPass" placeholder="New password (min 6 chars)" />
+            </div>
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="password" id="settingConfirmPass" placeholder="Confirm new password" />
+            </div>
+            <div id="passSettingMsg" class="settings-msg" style="display:none;"></div>
+            <button class="btn btn-primary" onclick="savePasswordSetting()">
+              <i class="fas fa-save"></i> Save Password
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-envelope"></i> Admin Email</h3>
+          </div>
+          <div class="settings-form">
+            <p class="settings-hint">Receive booking notifications at:</p>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="settingAdminEmail" placeholder="admin@wondervoyage.com" />
+            </div>
+            <div id="emailSettingMsg" class="settings-msg" style="display:none;"></div>
+            <button class="btn btn-primary" onclick="saveEmailSetting()">
+              <i class="fas fa-save"></i> Save Email
+            </button>
+          </div>
+        </div>
+
+        <div class="card danger-zone">
+          <div class="card-header">
+            <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+          </div>
+          <div class="settings-form">
+            <p class="settings-hint danger-hint">These actions are irreversible. Proceed with caution.</p>
+            <div class="danger-btns">
+              <button class="btn btn-danger" onclick="clearAllBookings()">
+                <i class="fas fa-trash"></i> Clear All Bookings
+              </button>
+              <button class="btn btn-secondary" onclick="exportBookingsCSV()">
+                <i class="fas fa-download"></i> Export All Bookings as CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /main-content -->
+</div><!-- /dashboard -->
+
+<!-- ===================== TOUR MODAL ===================== -->
+<div id="tourModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeTourModal()">
+  <div class="modal-box modal-large">
+    <div class="modal-header">
+      <h2 id="tourModalTitle"><i class="fas fa-map-marked-alt"></i> Add New Tour</h2>
+      <button class="modal-close" onclick="closeTourModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="tourForm" onsubmit="return false;">
+        <input type="hidden" id="tourFormId" />
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Tour Title <span class="req">*</span></label>
+            <input type="text" id="tourFormTitle" placeholder="e.g. Alpine Adventure Trek" required />
+          </div>
+          <div class="form-group">
+            <label>Location / Destination <span class="req">*</span></label>
+            <input type="text" id="tourFormLocation" placeholder="e.g. Swiss Alps, Switzerland" required />
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="tourFormCategory">
+              <option value="adventure">Adventure</option>
+              <option value="beach">Beach</option>
+              <option value="cultural">Cultural</option>
+              <option value="luxury">Luxury</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Duration (Days)</label>
+            <input type="number" id="tourFormDays" min="1" max="365" placeholder="7" />
+          </div>
+          <div class="form-group">
+            <label>Base Price per Person (USD)</label>
+            <input type="number" id="tourFormPrice" min="0" step="1" placeholder="1299" />
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>Max Group Size</label>
+            <input type="number" id="tourFormGroupSize" min="1" max="100" placeholder="12" />
+          </div>
+          <div class="form-group">
+            <label>Difficulty</label>
+            <select id="tourFormDifficulty">
+              <option value="Easy">Easy</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Challenging">Challenging</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Star Rating</label>
+            <select id="tourFormRating">
+              <option value="3">3</option>
+              <option value="3.5">3.5</option>
+              <option value="4">4</option>
+              <option value="4.5">4.5</option>
+              <option value="5" selected>5</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Review Count</label>
+            <input type="number" id="tourFormReviews" min="0" placeholder="128" />
+          </div>
+          <div class="form-group">
+            <label>Hero Image URL</label>
+            <input type="text" id="tourFormImage" placeholder="https://images.unsplash.com/..." />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Short Description</label>
+          <textarea id="tourFormDesc" rows="3" placeholder="A compelling short description of this tour..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Tour Highlights</label>
+          <textarea id="tourFormHighlights" rows="5" placeholder="One highlight per line&#10;e.g. Trek to the Jungfraujoch&#10;Paragliding over Interlaken"></textarea>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>What's Included</label>
+            <textarea id="tourFormIncludes" rows="4" placeholder="One item per line&#10;e.g. 7 nights accommodation&#10;Daily breakfast"></textarea>
+          </div>
+          <div class="form-group">
+            <label>What's Not Included</label>
+            <textarea id="tourFormExcludes" rows="4" placeholder="One item per line&#10;e.g. International flights&#10;Travel insurance"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group tour-active-toggle">
+          <label class="checkbox-label">
+            <input type="checkbox" id="tourFormActive" checked />
+            <span class="checkmark"></span>
+            Active (visible on site)
+          </label>
+        </div>
+
+        <div id="tourFormError" class="form-error" style="display:none;"></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeTourModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTour()">
+        <i class="fas fa-save"></i> Save Tour
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BOOKING DETAIL MODAL ===================== -->
+<div id="bookingDetailModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeBookingModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2><i class="fas fa-suitcase"></i> Booking Details</h2>
+      <button class="modal-close" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="bookingDetailBody">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeBookingModal()">Close</button>
+      <button class="btn btn-primary" id="bookingReplyBtn" onclick="">
+        <i class="fas fa-reply"></i> Reply by Email
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EDIT SLOT MODAL ===================== -->
+<div id="editSlotModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeEditSlotModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2><i class="fas fa-edit"></i> Edit Time Slot</h2>
+      <button class="modal-close" onclick="closeEditSlotModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editSlotTourId" />
+      <input type="hidden" id="editSlotDate" />
+      <input type="hidden" id="editSlotId" />
+      <div class="form-group">
+        <label>Date</label>
+        <input type="text" id="editSlotDateDisplay" disabled style="background:#f5f5f5;color:#666;" />
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Time (e.g. 08:00 - 17:00)</label>
+          <input type="text" id="editSlotTime" placeholder="e.g. 08:00 - 17:00" />
+        </div>
+        <div class="form-group">
+          <label>Spots Available</label>
+          <input type="number" id="editSlotSpots" min="0" max="999" />
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="editSlotStatus">
+            <option value="available">Available</option>
+            <option value="limited">Limited</option>
+            <option value="sold-out">Sold Out</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price Override (US$)</label>
+          <input type="number" id="editSlotPrice" min="0" step="0.01" placeholder="Leave empty for default" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <input type="text" id="editSlotNotes" placeholder="Optional notes for this slot..." />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeEditSlotModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditSlotModal()">
+        <i class="fas fa-save"></i> Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SYNC NOTICE -->
+<div id="syncNotice" class="sync-notice" style="display:none;">
+  <i class="fas fa-check-circle"></i> Saved
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

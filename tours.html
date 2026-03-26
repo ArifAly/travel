@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WonderVoyage | Tour Packages</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="tours.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-globe-americas"></i> WonderVoyage
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tours.html" class="active-link">Tours</a></li>
+        <li><a href="index.html#destinations">Destinations</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#contact" class="btn btn-nav">Book Now</a>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <p class="section-tag">Our Packages</p>
+      <h1>All Tour Packages</h1>
+      <p>Explore our full collection of handcrafted tours — click any tour to view the full itinerary, check availability, and book your spot.</p>
+    </div>
+  </section>
+
+  <!-- TOUR LIST -->
+  <section class="tours-page-section">
+    <div class="container">
+
+      <!-- FILTER BAR -->
+      <div class="tours-filter-bar">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All Tours</button>
+          <button class="filter-btn" data-filter="adventure">Adventure</button>
+          <button class="filter-btn" data-filter="cultural">Cultural</button>
+          <button class="filter-btn" data-filter="beach">Beach</button>
+          <button class="filter-btn" data-filter="luxury">Luxury</button>
+        </div>
+        <div class="sort-group">
+          <label><i class="fas fa-sort"></i> Sort by:</label>
+          <select id="sortSelect">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="duration-asc">Duration: Shortest</option>
+            <option value="duration-desc">Duration: Longest</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TOUR CARDS GRID -->
+      <div class="tours-grid-full" id="tourGrid"></div>
+
+    </div>
+  </section>
+
+  <!-- TOUR DETAIL PANEL -->
+  <section class="tour-detail-section" id="tourDetailSection" style="display:none;">
+    <div class="container">
+      <div class="tour-detail-layout">
+
+        <!-- LEFT: Detail Content -->
+        <div class="tour-detail-main">
+
+          <!-- Hero Image + Badge -->
+          <div class="detail-hero" id="detailHero"></div>
+
+          <!-- Tabs -->
+          <div class="detail-tabs">
+            <button class="tab-btn active" data-tab="overview">Overview</button>
+            <button class="tab-btn" data-tab="itinerary">Itinerary</button>
+            <button class="tab-btn" data-tab="includes">Includes</button>
+          </div>
+
+          <!-- Overview Tab -->
+          <div class="tab-content active" id="tab-overview">
+            <div class="overview-stats" id="overviewStats"></div>
+            <p id="tourDescription" class="tour-full-desc"></p>
+            <div class="highlights-box" id="highlightsBox"></div>
+          </div>
+
+          <!-- Itinerary Tab -->
+          <div class="tab-content" id="tab-itinerary">
+            <h3 class="tab-section-title">Day-by-Day Itinerary</h3>
+            <div class="itinerary-list" id="itineraryList"></div>
+          </div>
+
+          <!-- Includes Tab -->
+          <div class="tab-content" id="tab-includes">
+            <div class="includes-grid" id="includesGrid"></div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Booking Widget -->
+        <div class="booking-widget" id="bookingWidget">
+          <div class="widget-header">
+            <div>
+              <span class="widget-price-label">From</span>
+              <span class="widget-price" id="widgetPrice"></span>
+              <span class="widget-price-per">/person</span>
+            </div>
+            <div class="widget-rating" id="widgetRating"></div>
+          </div>
+
+          <!-- PAX SELECTOR -->
+          <div class="widget-section">
+            <h4><i class="fas fa-users"></i> Select Travelers</h4>
+            <div class="pax-row">
+              <div class="pax-info">
+                <span class="pax-label">Adults</span>
+                <span class="pax-sub">Age 13+</span>
+              </div>
+              <div class="pax-counter">
+                <button class="pax-btn" onclick="changePax('adults', -1)"><i class="fas fa-minus"></i></button>
+                <span class="pax-val" id="pax-adults">2</span>
+                <button class="pax-btn" onclick="changePax('adults', 1)"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <div class="pax-row">
+              <div class="pax-info">
+                <span class="pax-label">Children</span>
+                <span class="pax-sub">Age 2–12 (20% off)</span>
+              </div>
+              <div class="pax-counter">
+                <button class="pax-btn" onclick="changePax('children', -1)"><i class="fas fa-minus"></i></button>
+                <span class="pax-val" id="pax-children">0</span>
+                <button class="pax-btn" onclick="changePax('children', 1)"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <div class="pax-row">
+              <div class="pax-info">
+                <span class="pax-label">Infants</span>
+                <span class="pax-sub">Under 2 (Free)</span>
+              </div>
+              <div class="pax-counter">
+                <button class="pax-btn" onclick="changePax('infants', -1)"><i class="fas fa-minus"></i></button>
+                <span class="pax-val" id="pax-infants">0</span>
+                <button class="pax-btn" onclick="changePax('infants', 1)"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CALENDAR -->
+          <div class="widget-section">
+            <h4><i class="fas fa-calendar-alt"></i> Select Departure Date</h4>
+            <div class="calendar-nav">
+              <button class="cal-nav-btn" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+              <span class="cal-month-label" id="calMonthLabel"></span>
+              <button class="cal-nav-btn" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+              <span><span class="legend-dot available"></span> Available</span>
+              <span><span class="legend-dot limited"></span> Limited</span>
+              <span><span class="legend-dot sold-out"></span> Sold Out</span>
+            </div>
+            <div class="selected-date-info" id="selectedDateInfo" style="display:none;"></div>
+          </div>
+
+          <!-- PRICE BREAKDOWN -->
+          <div class="widget-section price-breakdown" id="priceBreakdown">
+            <h4><i class="fas fa-receipt"></i> Price Breakdown</h4>
+            <div id="priceLines"></div>
+            <div class="price-total-row">
+              <span>Total</span>
+              <span class="price-total" id="priceTotal"></span>
+            </div>
+          </div>
+
+          <!-- BOOK BUTTON -->
+          <button class="btn btn-primary full-width book-now-btn" id="bookNowBtn" onclick="handleBooking()" disabled>
+            <i class="fas fa-lock"></i> Select a Date to Book
+          </button>
+          <p class="no-charge-note"><i class="fas fa-shield-alt"></i> Free cancellation up to 30 days before departure</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING MODAL (2-step) -->
+  <div class="modal-overlay" id="bookingModal" style="display:none;">
+    <div class="modal-box large">
+
+      <!-- Step 1: Guest Details Form -->
+      <div id="modalStep1">
+        <button class="modal-close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        <div class="modal-header">
+          <i class="fas fa-suitcase-rolling modal-header-icon"></i>
+          <h3>Complete Your Booking</h3>
+          <p>Fill in your details and we'll confirm everything within 24 hours.</p>
+        </div>
+
+        <!-- Booking Summary Bar -->
+        <div class="modal-summary-bar" id="modalSummaryBar"></div>
+
+        <!-- Guest Form -->
+        <form id="bookingForm" onsubmit="submitBooking(event)" novalidate>
+          <div class="modal-form-grid">
+            <div class="form-group">
+              <label>First Name <span class="req">*</span></label>
+              <input type="text" id="guestFirstName" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name <span class="req">*</span></label>
+              <input type="text" id="guestLastName" placeholder="Doe" required />
+            </div>
+            <div class="form-group">
+              <label>Email Address <span class="req">*</span></label>
+              <input type="email" id="guestEmail" placeholder="john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="req">*</span></label>
+              <input type="tel" id="guestPhone" placeholder="+1 (555) 000-0000" required />
+            </div>
+            <div class="form-group">
+              <label>Nationality</label>
+              <input type="text" id="guestNationality" placeholder="e.g. American" />
+            </div>
+            <div class="form-group">
+              <label>How did you hear about us?</label>
+              <select id="guestSource">
+                <option value="">Select...</option>
+                <option>Google Search</option>
+                <option>Social Media</option>
+                <option>Friend / Family</option>
+                <option>Travel Blog</option>
+                <option>Advertisement</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group full-width-field">
+            <label>Special Requests / Notes</label>
+            <textarea id="guestRequests" rows="3" placeholder="Dietary requirements, accessibility needs, room preferences, anniversary, honeymoon..."></textarea>
+          </div>
+          <div class="modal-form-footer">
+            <p class="form-privacy"><i class="fas fa-lock"></i> Your information is secure and will only be used for this booking.</p>
+            <button type="submit" class="btn btn-primary submit-booking-btn" id="submitBtn">
+              <i class="fas fa-paper-plane"></i> Send Booking Request
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: Success Screen -->
+      <div id="modalStep2" style="display:none;">
+        <div class="success-screen">
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h3>Booking Request Sent!</h3>
+          <p id="successMessage"></p>
+          <div class="success-ref" id="successRef"></div>
+          <div class="success-next">
+            <p><i class="fas fa-envelope"></i> A confirmation has been sent to your email.</p>
+            <p><i class="fas fa-headset"></i> Our team will contact you within <strong>24 hours</strong> to confirm your reservation.</p>
+            <p><i class="fas fa-shield-alt"></i> Free cancellation up to 30 days before departure.</p>
+          </div>
+          <button class="btn btn-primary" onclick="closeModal()">Done</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-globe-americas"></i> WonderVoyage</a>
+          <p>Creating extraordinary travel experiences since 2013. Your adventure starts here.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tours.html">Tour Packages</a></li>
+            <li><a href="index.html#destinations">Destinations</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Top Destinations</h4>
+          <ul>
+            <li><a href="#">Paris, France</a></li>
+            <li><a href="#">Bali, Indonesia</a></li>
+            <li><a href="#">Tokyo, Japan</a></li>
+            <li><a href="#">Dubai, UAE</a></li>
+            <li><a href="#">Santorini, Greece</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Travel Insurance</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Cancellation Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 WonderVoyage. All rights reserved. Made with <i class="fas fa-heart"></i> for travelers worldwide.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></a>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="tours.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+==================================================
+  EMAILJS SETUP GUIDE — WonderVoyage Booking Emails
+==================================================
+
+STEP 1 — Create a FREE EmailJS Account
+---------------------------------------
+Go to: https://www.emailjs.com
+Click "Sign Up Free" (200 emails/month free)
+
+
+STEP 2 — Connect Your Email (e.g. Gmail)
+------------------------------------------
+Dashboard → Email Services → Add New Service
+Select Gmail (or Outlook, Yahoo, etc.)
+Follow the OAuth steps to connect your admin email account
+Note your SERVICE ID (e.g. "service_abc123")
+
+
+STEP 3 — Create an Email Template
+------------------------------------
+Dashboard → Email Templates → Create New Template
+
+Set:
+  To Email:   {{admin_email}}
+  Reply To:   {{reply_to}}          ← so you can reply directly to guest!
+  Subject:    🧳 New Booking Request [{{booking_ref}}] — {{tour_name}}
+
+Paste this in the BODY (HTML template):
+
+─────────────────────────────────────────────────
+<!DOCTYPE html>
+<html>
+<body style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:0;background:#f8f9fa;">
+
+<div style="background:#1a1a2e;padding:28px 32px;border-radius:8px 8px 0 0;">
+  <h1 style="color:#ff6b35;margin:0;font-size:1.4rem;">🧳 New Booking Request</h1>
+  <p style="color:rgba(255,255,255,0.7);margin:6px 0 0;font-size:0.9rem;">WonderVoyage Admin Notification</p>
+</div>
+
+<div style="background:#fff;padding:28px 32px;border:1px solid #e0e0e0;">
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    <tr style="background:#f8f9fa;">
+      <td style="padding:10px 14px;font-weight:700;color:#333;width:40%;">Booking Reference</td>
+      <td style="padding:10px 14px;color:#ff6b35;font-weight:700;font-size:1.1rem;">{{booking_ref}}</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 14px;font-weight:700;color:#333;">Booking Date</td>
+      <td style="padding:10px 14px;color:#666;">{{booking_date}}</td>
+    </tr>
+  </table>
+
+  <h2 style="color:#1a1a2e;font-size:1.1rem;border-bottom:2px solid #ff6b35;padding-bottom:8px;margin-bottom:16px;">📍 Tour Details</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;width:40%;">Tour Name</td><td style="padding:10px 14px;color:#1a1a2e;font-weight:700;">{{tour_name}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Destination</td><td style="padding:10px 14px;color:#666;">{{destination}}</td></tr>
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;">Category</td><td style="padding:10px 14px;color:#666;">{{category}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Duration</td><td style="padding:10px 14px;color:#666;">{{duration}}</td></tr>
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;">Departure Date</td><td style="padding:10px 14px;color:#27ae60;font-weight:700;">{{departure_date}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Return Date</td><td style="padding:10px 14px;color:#666;">{{return_date}}</td></tr>
+  </table>
+
+  <h2 style="color:#1a1a2e;font-size:1.1rem;border-bottom:2px solid #ff6b35;padding-bottom:8px;margin-bottom:16px;">👥 Travelers</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;width:40%;">Adults</td><td style="padding:10px 14px;color:#666;">{{adults}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Children (2–12)</td><td style="padding:10px 14px;color:#666;">{{children}}</td></tr>
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;">Infants (under 2)</td><td style="padding:10px 14px;color:#666;">{{infants}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Total Travelers</td><td style="padding:10px 14px;font-weight:700;color:#1a1a2e;">{{total_travelers}}</td></tr>
+  </table>
+
+  <h2 style="color:#1a1a2e;font-size:1.1rem;border-bottom:2px solid #ff6b35;padding-bottom:8px;margin-bottom:16px;">💰 Pricing</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;width:40%;">Price per Person</td><td style="padding:10px 14px;color:#666;">{{price_per_person}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;white-space:pre-line;">Breakdown</td><td style="padding:10px 14px;color:#666;white-space:pre-line;">{{pax_breakdown}}</td></tr>
+    <tr style="background:#1a1a2e;"><td style="padding:12px 14px;font-weight:700;color:#fff;font-size:1rem;">ESTIMATED TOTAL</td><td style="padding:12px 14px;color:#ff6b35;font-weight:800;font-size:1.2rem;">{{total_price}}</td></tr>
+  </table>
+
+  <h2 style="color:#1a1a2e;font-size:1.1rem;border-bottom:2px solid #ff6b35;padding-bottom:8px;margin-bottom:16px;">👤 Guest Information</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;width:40%;">Full Name</td><td style="padding:10px 14px;color:#1a1a2e;font-weight:700;">{{guest_name}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Email</td><td style="padding:10px 14px;"><a href="mailto:{{guest_email}}" style="color:#ff6b35;">{{guest_email}}</a></td></tr>
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;">Phone</td><td style="padding:10px 14px;"><a href="tel:{{guest_phone}}" style="color:#ff6b35;">{{guest_phone}}</a></td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;">Nationality</td><td style="padding:10px 14px;color:#666;">{{guest_nationality}}</td></tr>
+    <tr style="background:#f8f9fa;"><td style="padding:10px 14px;font-weight:700;color:#333;">Heard From</td><td style="padding:10px 14px;color:#666;">{{heard_from}}</td></tr>
+    <tr><td style="padding:10px 14px;font-weight:700;color:#333;vertical-align:top;">Special Requests</td><td style="padding:10px 14px;color:#666;">{{special_requests}}</td></tr>
+  </table>
+
+  <div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:16px;margin-top:8px;">
+    <p style="margin:0;color:#e65100;font-weight:700;">⚡ Action Required</p>
+    <p style="margin:8px 0 0;color:#666;font-size:0.9rem;">Please contact <strong>{{guest_name}}</strong> at <a href="mailto:{{guest_email}}" style="color:#ff6b35;">{{guest_email}}</a> or <a href="tel:{{guest_phone}}" style="color:#ff6b35;">{{guest_phone}}</a> within 24 hours to confirm this booking.</p>
+  </div>
+</div>
+
+<div style="background:#f8f9fa;padding:16px 32px;border-radius:0 0 8px 8px;text-align:center;border:1px solid #e0e0e0;border-top:none;">
+  <p style="color:#999;font-size:0.8rem;margin:0;">WonderVoyage Booking System &bull; This is an automated notification</p>
+</div>
+
+</body>
+</html>
+─────────────────────────────────────────────────
+
+Note your TEMPLATE ID (e.g. "template_xyz789")
+
+
+STEP 4 — Get Your Public Key
+------------------------------
+EmailJS Dashboard → Account → General → Public Key
+(e.g. "AbCdEfGhIjKlMnOp")
+
+
+STEP 5 — Update tours.js
+--------------------------
+Open: c:\Users\See Sight Tours\Desktop\claudedemo\tours.js
+Find these 3 lines near the top (around line 265) and replace with your values:
+
+  const EMAILJS_PUBLIC_KEY  = 'AbCdEfGhIjKlMnOp';     ← your Public Key
+  const EMAILJS_SERVICE_ID  = 'service_abc123';         ← your Service ID
+  const EMAILJS_TEMPLATE_ID = 'template_xyz789';        ← your Template ID
+  const ADMIN_EMAIL         = 'you@youremail.com';      ← your admin email
+
+
+STEP 6 — Test It!
+------------------
+Open tours.html → select a tour → pick a date → click Book This Tour
+Fill in the guest form → Submit
+Check your admin inbox — you should receive the full booking details email!
+
+==================================================
+  FREE TIER LIMITS (EmailJS)
+==================================================
+- 200 emails per month (free)
+- Upgrade at emailjs.com for more volume
+==================================================

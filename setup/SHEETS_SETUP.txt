@@ -1,0 +1,167 @@
+==============================================================
+  GOOGLE SHEETS AVAILABILITY SETUP GUIDE
+  Connect your spreadsheet to the WonderVoyage website
+==============================================================
+
+WHY GOOGLE SHEETS?
+------------------
+Google Sheets works exactly like Excel — same layout, same formulas.
+The difference: it lives online, so the website can read from it live.
+You (or your team) update the sheet → website shows updated availability
+instantly. No developer needed for day-to-day changes.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1 — Import the Template into Google Sheets
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Go to https://sheets.google.com  (sign in with your Google account)
+2. Click the folder icon (Open file picker) → Upload tab
+3. Upload: availability_template.csv  (in this same folder)
+4. Google Sheets will open it automatically
+
+Your sheet will look like this:
+
+  ┌──────────┬──────────────────────────┬────────────┬───────────┬────────┬──────────────────────┐
+  │ Tour ID  │ Tour Name                │ Date       │ Status    │ Spots  │ Notes                │
+  ├──────────┼──────────────────────────┼────────────┼───────────┼────────┼──────────────────────┤
+  │ 1        │ Alpine Adventure Trek    │ 2026-04-05 │ available │ 10     │                      │
+  │ 1        │ Alpine Adventure Trek    │ 2026-04-12 │ limited   │ 3      │ Last few spots!      │
+  │ 2        │ Bali Island Paradise     │ 2026-04-06 │ sold-out  │ 0      │ Fully booked         │
+  └──────────┴──────────────────────────┴────────────┴───────────┴────────┴──────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — Understand the Columns
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Column A — Tour ID
+  The number matching each tour:
+    1 = Alpine Adventure Trek
+    2 = Bali Island Paradise
+    3 = Japanese Cultural Journey
+    4 = Dubai Luxury Escape
+    5 = Patagonia Wild Expedition
+    6 = Greek Islands Odyssey
+
+Column B — Tour Name  (just for your reference, not read by the website)
+
+Column C — Date  (MUST be in YYYY-MM-DD format, e.g. 2026-05-15)
+  ⚠️ Important: Format the column as Plain Text in Google Sheets
+     to prevent it from auto-converting to a date display format.
+     Select Column C → Format → Number → Plain Text
+
+Column D — Status  (MUST be exactly one of these three words, lowercase):
+    available   → green on calendar — guests can book
+    limited     → orange on calendar — only a few spots left
+    sold-out    → red on calendar — no booking possible
+
+Column E — Spots Available  (number — how many seats remain)
+    - shown to guests when they click a date
+    - if sold-out, put 0
+
+Column F — Notes  (optional — shown to guests on date selection)
+    Examples: "Cherry blossom season!", "Price includes airport tax", etc.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3 — Publish the Sheet (Make it readable by the website)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In Google Sheets:
+1. Click  File  →  Share  →  Publish to web
+2. In the first dropdown, select:  Sheet1  (or your sheet name)
+3. In the second dropdown, select:  Comma-separated values (.csv)
+4. Click  Publish
+5. Click OK to confirm
+6. COPY the URL that appears — it will look like:
+   https://docs.google.com/spreadsheets/d/XXXX.../pub?gid=0&single=true&output=csv
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 4 — Connect the URL to the Website
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Open:  c:\Users\See Sight Tours\Desktop\claudedemo\tours.js
+
+Find this line near the top (around line 10):
+
+  const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_SHEET_CSV_URL';
+
+Replace  'YOUR_GOOGLE_SHEET_CSV_URL'  with your URL from Step 3:
+
+  const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/XXXX.../pub?gid=0&single=true&output=csv';
+
+Save the file. Done!
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 5 — Test It
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open tours.html in your browser
+   NOTE: For the fetch to work, the page must be served from a web server
+   (not opened directly as a file). Use one of these options:
+
+   Option A — VS Code Live Server (easiest):
+     Install "Live Server" extension in VS Code
+     Right-click index.html → Open with Live Server
+
+   Option B — Upload to your web hosting (Netlify, cPanel, etc.)
+
+   Option C — Python local server:
+     Open terminal in the claudedemo folder
+     Run: python -m http.server 8080
+     Open: http://localhost:8080/tours.html
+
+2. Click any tour → the calendar will show a "Loading availability..." spinner
+3. After ~1 second, your real dates from the sheet appear on the calendar
+4. Green = available, Orange = limited, Red = sold-out
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DAY-TO-DAY MANAGEMENT (No developer needed!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Adding a new departure date:
+  → Add a new row with the Tour ID, date, status, and spots
+  → Website updates within ~1 minute automatically
+
+Someone books a tour — reduce spots:
+  → Change the Spots number for that date
+  → If 0 spots remain, change Status to "sold-out"
+
+Mark a date as unavailable (e.g. guide holiday):
+  → Simply delete that row, or change Status to "sold-out"
+
+Add a seasonal note:
+  → Type in Column F — guests will see it when they click the date
+  → e.g. "Peak season — book early", "Includes New Year's Eve party"
+
+Pro tip — use color coding in the sheet for your own reference:
+  → Green rows = available, Yellow = limited, Red = sold-out
+  → This doesn't affect the website, just makes the sheet easier to read
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Calendar shows demo data instead of real dates?
+  → Make sure the sheet is Published to web (Step 3)
+  → Check the URL in tours.js is correct (no extra spaces)
+  → The page must be served from a web server, not file://
+
+Dates not showing correctly?
+  → Make sure Column C is formatted as Plain Text (not Date)
+  → Dates must be exactly YYYY-MM-DD format (e.g. 2026-05-15)
+
+Status not changing color?
+  → Status must be exactly: available / limited / sold-out (all lowercase)
+  → Check for extra spaces in the cells
+
+Sheet changes not showing on website?
+  → Published CSV usually updates within 1–5 minutes
+  → Force-refresh the browser (Ctrl+Shift+R)
+
+==============================================================

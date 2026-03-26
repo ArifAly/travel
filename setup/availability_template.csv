@@ -1,0 +1,56 @@
+Tour ID,Tour Name,Date,Status,Spots Available,Notes
+1,Alpine Adventure Trek,2026-04-05,available,10,
+1,Alpine Adventure Trek,2026-04-12,available,8,
+1,Alpine Adventure Trek,2026-04-19,limited,3,Last few spots!
+1,Alpine Adventure Trek,2026-04-26,sold-out,0,Fully booked
+1,Alpine Adventure Trek,2026-05-03,available,12,
+1,Alpine Adventure Trek,2026-05-10,available,10,
+1,Alpine Adventure Trek,2026-05-17,limited,2,Only 2 spots left
+1,Alpine Adventure Trek,2026-05-24,available,12,
+1,Alpine Adventure Trek,2026-06-07,available,12,
+1,Alpine Adventure Trek,2026-06-14,sold-out,0,Fully booked
+2,Bali Island Paradise,2026-04-06,available,14,
+2,Bali Island Paradise,2026-04-13,available,12,
+2,Bali Island Paradise,2026-04-20,limited,4,Limited availability
+2,Bali Island Paradise,2026-04-27,sold-out,0,Fully booked
+2,Bali Island Paradise,2026-05-04,available,14,
+2,Bali Island Paradise,2026-05-11,available,10,
+2,Bali Island Paradise,2026-05-18,available,14,
+2,Bali Island Paradise,2026-05-25,limited,3,
+2,Bali Island Paradise,2026-06-01,available,14,
+2,Bali Island Paradise,2026-06-08,available,12,
+3,Japanese Cultural Journey,2026-04-07,available,10,Cherry blossom season!
+3,Japanese Cultural Journey,2026-04-14,limited,2,Almost full - cherry blossom peak
+3,Japanese Cultural Journey,2026-04-21,sold-out,0,Fully booked
+3,Japanese Cultural Journey,2026-04-28,available,10,
+3,Japanese Cultural Journey,2026-05-05,available,10,Golden Week - book early
+3,Japanese Cultural Journey,2026-05-12,available,8,
+3,Japanese Cultural Journey,2026-05-19,available,10,
+3,Japanese Cultural Journey,2026-06-02,available,10,
+3,Japanese Cultural Journey,2026-06-09,limited,4,
+4,Dubai Luxury Escape,2026-04-08,available,8,
+4,Dubai Luxury Escape,2026-04-15,available,6,
+4,Dubai Luxury Escape,2026-04-22,limited,2,
+4,Dubai Luxury Escape,2026-04-29,available,8,
+4,Dubai Luxury Escape,2026-05-06,sold-out,0,Fully booked
+4,Dubai Luxury Escape,2026-05-13,available,8,
+4,Dubai Luxury Escape,2026-05-20,available,6,
+4,Dubai Luxury Escape,2026-06-03,available,8,
+5,Patagonia Wild Expedition,2026-04-09,available,10,
+5,Patagonia Wild Expedition,2026-04-16,available,8,
+5,Patagonia Wild Expedition,2026-04-23,limited,3,
+5,Patagonia Wild Expedition,2026-04-30,sold-out,0,Fully booked
+5,Patagonia Wild Expedition,2026-05-07,available,10,
+5,Patagonia Wild Expedition,2026-05-14,available,10,Best weather season
+5,Patagonia Wild Expedition,2026-05-21,available,8,
+5,Patagonia Wild Expedition,2026-06-04,limited,2,Last spots for summer season
+6,Greek Islands Odyssey,2026-04-10,available,12,
+6,Greek Islands Odyssey,2026-04-17,available,12,
+6,Greek Islands Odyssey,2026-04-24,limited,4,
+6,Greek Islands Odyssey,2026-05-01,sold-out,0,Fully booked
+6,Greek Islands Odyssey,2026-05-08,available,12,
+6,Greek Islands Odyssey,2026-05-15,available,10,
+6,Greek Islands Odyssey,2026-05-22,available,12,
+6,Greek Islands Odyssey,2026-05-29,limited,3,Popular summer date
+6,Greek Islands Odyssey,2026-06-05,available,12,
+6,Greek Islands Odyssey,2026-06-12,available,10,

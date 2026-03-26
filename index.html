@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WonderVoyage | Explore the World</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">
+        <i class="fas fa-globe-americas"></i> WonderVoyage
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="tours.html">Tours</a></li>
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-nav">Book Now</a>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle">Discover Your Next Adventure</p>
+      <h1>Explore the World<br /><span>With Confidence</span></h1>
+      <p class="hero-desc">Handcrafted tours to the world's most breathtaking destinations. Let us take care of every detail while you create unforgettable memories.</p>
+      <div class="hero-btns">
+        <a href="tours.html" class="btn btn-primary">Explore Tours</a>
+        <a href="#about" class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-search">
+      <div class="search-box">
+        <div class="search-field">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" id="searchDestination" placeholder="Where do you want to go?" />
+        </div>
+        <div class="search-field">
+          <i class="fas fa-calendar-alt"></i>
+          <input type="date" id="searchDate" />
+        </div>
+        <div class="search-field">
+          <i class="fas fa-users"></i>
+          <select id="searchGuests">
+            <option value="">Any Group Size</option>
+            <option value="1">1 Person</option>
+            <option value="2">2 People</option>
+            <option value="3">3-5 People</option>
+            <option value="6">6+ People</option>
+          </select>
+        </div>
+        <button class="btn btn-primary search-btn" id="searchBtn" onclick="handleSearch()">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container">
+      <div class="stat-item">
+        <h3>15,000+</h3>
+        <p>Happy Travelers</p>
+      </div>
+      <div class="stat-item">
+        <h3>120+</h3>
+        <p>Destinations</p>
+      </div>
+      <div class="stat-item">
+        <h3>98%</h3>
+        <p>Satisfaction Rate</p>
+      </div>
+      <div class="stat-item">
+        <h3>12+</h3>
+        <p>Years Experience</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOURS -->
+  <section class="tours" id="tours">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Our Packages</p>
+        <h2>Popular Tour Packages</h2>
+        <p class="section-desc">Choose from our carefully curated selection of world-class tour packages designed for every type of traveler.</p>
+      </div>
+      <div id="searchResultBanner" class="search-result-banner" style="display:none;"></div>
+      <div class="tour-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="adventure">Adventure</button>
+        <button class="filter-btn" data-filter="cultural">Cultural</button>
+        <button class="filter-btn" data-filter="beach">Beach</button>
+        <button class="filter-btn" data-filter="luxury">Luxury</button>
+      </div>
+      <div class="tours-grid">
+
+        <div class="tour-card" data-category="adventure" data-location="swiss alps switzerland" data-title="alpine adventure trek">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600')">
+            <span class="tour-badge">Adventure</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Swiss Alps</span>
+              <span><i class="fas fa-clock"></i> 7 Days</span>
+            </div>
+            <h3>Alpine Adventure Trek</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(128 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$1,299</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" data-category="beach" data-location="bali indonesia" data-title="bali island paradise">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600')">
+            <span class="tour-badge beach">Beach</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Bali, Indonesia</span>
+              <span><i class="fas fa-clock"></i> 10 Days</span>
+            </div>
+            <h3>Bali Island Paradise</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              <span>(214 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$1,599</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" data-category="cultural" data-location="kyoto japan" data-title="japanese cultural journey">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600')">
+            <span class="tour-badge cultural">Cultural</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Kyoto, Japan</span>
+              <span><i class="fas fa-clock"></i> 8 Days</span>
+            </div>
+            <h3>Japanese Cultural Journey</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(189 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$2,199</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" data-category="luxury" data-location="dubai uae emirates" data-title="dubai luxury escape">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600')">
+            <span class="tour-badge luxury">Luxury</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Dubai, UAE</span>
+              <span><i class="fas fa-clock"></i> 6 Days</span>
+            </div>
+            <h3>Dubai Luxury Escape</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(97 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$3,499</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" data-category="adventure" data-location="patagonia argentina chile" data-title="patagonia wild expedition">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600')">
+            <span class="tour-badge">Adventure</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Patagonia</span>
+              <span><i class="fas fa-clock"></i> 12 Days</span>
+            </div>
+            <h3>Patagonia Wild Expedition</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              <span>(76 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$2,899</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tour-card" data-category="cultural beach" data-location="santorini greece greek islands" data-title="greek islands odyssey">
+          <div class="tour-img" style="background-image: url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600')">
+            <span class="tour-badge cultural">Cultural</span>
+            <div class="tour-overlay">
+              <a href="#contact" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-meta">
+              <span><i class="fas fa-map-marker-alt"></i> Santorini, Greece</span>
+              <span><i class="fas fa-clock"></i> 9 Days</span>
+            </div>
+            <h3>Greek Islands Odyssey</h3>
+            <div class="tour-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(241 reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                <span class="price-from">From</span>
+                <span class="price">$2,099</span>
+                <span class="price-per">/person</span>
+              </div>
+              <a href="tours.html" class="btn-link">Details <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations" id="destinations">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Top Picks</p>
+        <h2>Popular Destinations</h2>
+        <p class="section-desc">Explore our most beloved destinations, each offering a unique and unforgettable experience.</p>
+      </div>
+      <div class="dest-grid">
+        <div class="dest-card large" style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800')">
+          <div class="dest-overlay">
+            <h3>Paris, France</h3>
+            <p>42 Tours Available</p>
+          </div>
+        </div>
+        <div class="dest-card" style="background-image: url('https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600')">
+          <div class="dest-overlay">
+            <h3>Dubai, UAE</h3>
+            <p>28 Tours Available</p>
+          </div>
+        </div>
+        <div class="dest-card" style="background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600')">
+          <div class="dest-overlay">
+            <h3>Tokyo, Japan</h3>
+            <p>35 Tours Available</p>
+          </div>
+        </div>
+        <div class="dest-card" style="background-image: url('https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=600')">
+          <div class="dest-overlay">
+            <h3>New York, USA</h3>
+            <p>31 Tours Available</p>
+          </div>
+        </div>
+        <div class="dest-card" style="background-image: url('https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=600')">
+          <div class="dest-overlay">
+            <h3>Sydney, Australia</h3>
+            <p>19 Tours Available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-us">
+    <div class="container">
+      <div class="why-content">
+        <div class="why-text">
+          <p class="section-tag">Why Choose Us</p>
+          <h2>Travel Smarter With WonderVoyage</h2>
+          <p>We go beyond booking flights and hotels. We craft complete travel experiences that leave you with memories for a lifetime. Our expert team handles every detail so you can focus on enjoying the journey.</p>
+          <ul class="why-list">
+            <li><i class="fas fa-check-circle"></i> Personalized itineraries tailored to your preferences</li>
+            <li><i class="fas fa-check-circle"></i> 24/7 customer support throughout your trip</li>
+            <li><i class="fas fa-check-circle"></i> Best price guarantee — we match any competitor</li>
+            <li><i class="fas fa-check-circle"></i> Expert local guides at every destination</li>
+            <li><i class="fas fa-check-circle"></i> Flexible booking and cancellation policies</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary">Start Planning</a>
+        </div>
+        <div class="why-features">
+          <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h4>Safe Travel</h4>
+            <p>Your safety is our top priority. All tours meet international safety standards.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-headset"></i>
+            <h4>24/7 Support</h4>
+            <p>Round-the-clock assistance wherever you are in the world.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-tag"></i>
+            <h4>Best Price</h4>
+            <p>Guaranteed lowest prices. We match any legitimate competitor offer.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-user-tie"></i>
+            <h4>Expert Guides</h4>
+            <p>Local experts who bring each destination to life with authentic stories.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Testimonials</p>
+        <h2>What Our Travelers Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p>"WonderVoyage made our honeymoon in Bali absolutely magical. Every detail was perfect — from the villa to the private dinner on the beach. We'll definitely be back!"</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">SM</div>
+            <div>
+              <strong>Sarah & Mike Johnson</strong>
+              <span>Bali Trip, 2025</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card featured">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p>"The Japan cultural tour exceeded every expectation. Our guide was incredibly knowledgeable and the access to hidden temples and local experiences was truly priceless. Highly recommend!"</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">DL</div>
+            <div>
+              <strong>David Lee</strong>
+              <span>Japan Tour, 2025</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+          <p>"Booked the Swiss Alps trek for my group of 8 friends. The organization was flawless and the scenery was absolutely breathtaking. Best group trip we've ever taken!"</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar">AM</div>
+            <div>
+              <strong>Amanda Martinez</strong>
+              <span>Alps Trek, 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-images">
+          <div class="about-img-main" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600')"></div>
+          <div class="about-img-sm" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400')"></div>
+          <div class="about-badge-years">
+            <span class="years-num">12</span>
+            <span>Years of<br/>Excellence</span>
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="section-tag">About Us</p>
+          <h2>We Are Passionate About Travel</h2>
+          <p>Founded in 2013, WonderVoyage has been helping travelers discover the world's most incredible destinations. We believe travel is more than just visiting places — it's about transforming experiences that change your perspective.</p>
+          <p>Our team of 50+ travel specialists and 200+ local guides across 120 destinations work together to deliver seamless, enriching journeys for individuals, couples, families, and groups.</p>
+          <div class="about-stats">
+            <div>
+              <h4>15,000+</h4>
+              <p>Satisfied Customers</p>
+            </div>
+            <div>
+              <h4>120+</h4>
+              <p>Destinations Covered</p>
+            </div>
+            <div>
+              <h4>200+</h4>
+              <p>Local Expert Guides</p>
+            </div>
+          </div>
+          <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter-content">
+        <i class="fas fa-paper-plane newsletter-icon"></i>
+        <h2>Get Exclusive Travel Deals</h2>
+        <p>Subscribe to our newsletter and be the first to receive special offers, travel tips, and destination inspiration.</p>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+          <input type="email" placeholder="Enter your email address" required />
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-tag">Contact Us</p>
+        <h2>Plan Your Dream Trip</h2>
+        <p class="section-desc">Ready to start your adventure? Get in touch and our travel experts will craft the perfect itinerary for you.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h4>Our Office</h4>
+              <p>123 Travel Street, Adventure City<br />New York, NY 10001</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+            <div>
+              <h4>Phone</h4>
+              <p>+1 (800) 123-4567<br />Mon–Fri, 9am–6pm EST</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <h4>Email</h4>
+              <p>hello@wondervoyage.com<br />support@wondervoyage.com</p>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-tripadvisor"></i></a>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="handleContact(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Doe" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="john@example.com" required />
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" placeholder="+1 (555) 000-0000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Destination of Interest</label>
+            <select>
+              <option value="">Select a destination...</option>
+              <option>Swiss Alps</option>
+              <option>Bali, Indonesia</option>
+              <option>Kyoto, Japan</option>
+              <option>Dubai, UAE</option>
+              <option>Patagonia</option>
+              <option>Santorini, Greece</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="4" placeholder="Tell us about your dream trip..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary full-width">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="logo"><i class="fas fa-globe-americas"></i> WonderVoyage</a>
+          <p>Creating extraordinary travel experiences since 2013. Your adventure starts here.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tours">Tour Packages</a></li>
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Top Destinations</h4>
+          <ul>
+            <li><a href="#">Paris, France</a></li>
+            <li><a href="#">Bali, Indonesia</a></li>
+            <li><a href="#">Tokyo, Japan</a></li>
+            <li><a href="#">Dubai, UAE</a></li>
+            <li><a href="#">Santorini, Greece</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Travel Insurance</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Cancellation Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 WonderVoyage. All rights reserved. Made with <i class="fas fa-heart"></i> for travelers worldwide.</p>
+        <a href="admin.html" class="admin-link">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <a href="#home" class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
