@@ -441,6 +441,8 @@ async function openTour(id) {
   section.style.display = 'block';
 
   // Hero
+  const _gs  = tour.stats?.groupSize || (tour.groupSize ? `Max ${tour.groupSize}` : '');
+  const _dif = tour.stats?.difficulty || tour.difficulty || '';
   document.getElementById('detailHero').innerHTML = `
     <div style="
       height:420px;
@@ -453,19 +455,20 @@ async function openTour(id) {
           <div class="detail-meta">
             <span><i class="fas fa-map-marker-alt"></i>${tour.location}</span>
             <span><i class="fas fa-clock"></i>${tour.days} Days</span>
-            <span><i class="fas fa-users"></i>Max ${tour.stats.groupSize.replace('Max ','')}</span>
-            <span><i class="fas fa-signal"></i>${tour.stats.difficulty}</span>
+            ${_gs  ? `<span><i class="fas fa-users"></i>${_gs.replace('Max ','Max ')}</span>` : ''}
+            ${_dif ? `<span><i class="fas fa-signal"></i>${_dif}</span>` : ''}
           </div>
         </div>
       </div>
     </div>`;
 
   // Overview stats
+  const _alt = tour.stats?.altitude || null;
   document.getElementById('overviewStats').innerHTML = `
     <div class="overview-stat"><i class="fas fa-clock"></i><span class="stat-val">${tour.days} Days</span><span class="stat-lbl">Duration</span></div>
-    <div class="overview-stat"><i class="fas fa-users"></i><span class="stat-val">${tour.stats.groupSize}</span><span class="stat-lbl">Group Size</span></div>
-    <div class="overview-stat"><i class="fas fa-signal"></i><span class="stat-val">${tour.stats.difficulty}</span><span class="stat-lbl">Difficulty</span></div>
-    <div class="overview-stat"><i class="fas fa-mountain"></i><span class="stat-val">${tour.stats.altitude}</span><span class="stat-lbl">Max Altitude</span></div>`;
+    ${_gs  ? `<div class="overview-stat"><i class="fas fa-users"></i><span class="stat-val">${_gs}</span><span class="stat-lbl">Group Size</span></div>` : ''}
+    ${_dif ? `<div class="overview-stat"><i class="fas fa-signal"></i><span class="stat-val">${_dif}</span><span class="stat-lbl">Difficulty</span></div>` : ''}
+    ${_alt ? `<div class="overview-stat"><i class="fas fa-mountain"></i><span class="stat-val">${_alt}</span><span class="stat-lbl">Max Altitude</span></div>` : ''}`;
 
   document.getElementById('tourDescription').textContent = tour.description;
 
@@ -476,36 +479,41 @@ async function openTour(id) {
     </ul>`;
 
   // Itinerary
-  document.getElementById('itineraryList').innerHTML = tour.itinerary.map((day, i) => `
-    <div class="itinerary-item">
-      <div class="itinerary-header${i === 0 ? ' open' : ''}" onclick="toggleDay(this)">
-        <span class="day-badge">Day ${day.day}</span>
-        <h4>${day.title}</h4>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="itinerary-body${i === 0 ? ' open' : ''}">
-        <p>${day.desc}</p>
-        <div class="itinerary-activities">
-          ${day.activities.map(a => `<span class="activity-tag"><i class="fas fa-check"></i>${a}</span>`).join('')}
-        </div>
-        <div class="meal-info">
-          ${day.meals.map(m => `<span class="meal-tag"><i class="fas fa-utensils"></i>${m}</span>`).join('')}
-        </div>
-      </div>
-    </div>`).join('');
+  const _itinerary = Array.isArray(tour.itinerary) && tour.itinerary.length > 0 ? tour.itinerary : null;
+  document.getElementById('itineraryList').innerHTML = _itinerary
+    ? _itinerary.map((day, i) => `
+        <div class="itinerary-item">
+          <div class="itinerary-header${i === 0 ? ' open' : ''}" onclick="toggleDay(this)">
+            <span class="day-badge">Day ${day.day}</span>
+            <h4>${day.title}</h4>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="itinerary-body${i === 0 ? ' open' : ''}">
+            <p>${day.desc}</p>
+            <div class="itinerary-activities">
+              ${(day.activities||[]).map(a => `<span class="activity-tag"><i class="fas fa-check"></i>${a}</span>`).join('')}
+            </div>
+            <div class="meal-info">
+              ${(day.meals||[]).map(m => `<span class="meal-tag"><i class="fas fa-utensils"></i>${m}</span>`).join('')}
+            </div>
+          </div>
+        </div>`).join('')
+    : `<p style="color:var(--text-light);padding:20px 0;font-style:italic;">Detailed itinerary coming soon. Contact us for a full day-by-day breakdown.</p>`;
 
   // Includes
+  const _inc = Array.isArray(tour.includes) ? tour.includes : [];
+  const _exc = Array.isArray(tour.excludes) ? tour.excludes : [];
   document.getElementById('includesGrid').innerHTML = `
     <div class="includes-col">
       <h4><i class="fas fa-check-circle"></i> What's Included</h4>
       <ul class="includes-list">
-        ${tour.includes.map(i => `<li><i class="fas fa-check inc-icon"></i>${i}</li>`).join('')}
+        ${_inc.length ? _inc.map(i => `<li><i class="fas fa-check inc-icon"></i>${i}</li>`).join('') : '<li style="color:var(--text-light)">Details coming soon</li>'}
       </ul>
     </div>
     <div class="includes-col">
       <h4><i class="fas fa-times-circle"></i> Not Included</h4>
       <ul class="includes-list">
-        ${tour.excludes.map(e => `<li><i class="fas fa-times exc-icon"></i>${e}</li>`).join('')}
+        ${_exc.length ? _exc.map(e => `<li><i class="fas fa-times exc-icon"></i>${e}</li>`).join('') : '<li style="color:var(--text-light)">Details coming soon</li>'}
       </ul>
     </div>`;
 
@@ -808,11 +816,13 @@ function submitBooking(e) {
     booking_date:     bookingTime,
 
     // Tour details
+    tour_id:          selectedTourId,
     tour_name:        tour.title,
     destination:      tour.location,
     category:         tour.category.charAt(0).toUpperCase() + tour.category.slice(1),
     duration:         `${tour.days} days`,
     departure_date:   fmt(d),
+    departure_date_raw: selectedDate,
     return_date:      fmt(returnDate),
 
     // Travelers
@@ -871,6 +881,44 @@ function saveBookingToStorage(params, ref) {
       receivedAt: new Date().toISOString()
     });
     localStorage.setItem('wv_bookings', JSON.stringify(bookings));
+
+    // Reduce available spots for the booked date
+    consumeAvailabilitySpots(params.tour_id, params.departure_date_raw, params.total_travelers || 1);
+  } catch(e) {}
+}
+
+function consumeAvailabilitySpots(tourId, dateKey, count) {
+  if (!tourId || !dateKey || !count) return;
+  try {
+    const avail = JSON.parse(localStorage.getItem('wv_availability') || '{}');
+    if (!avail[tourId] || !avail[tourId][dateKey]) return;
+
+    const value = avail[tourId][dateKey];
+
+    if (Array.isArray(value)) {
+      // New slot-array format — reduce spots starting from the first available slot
+      let remaining = count;
+      value.forEach(slot => {
+        if (remaining <= 0 || slot.status === 'sold-out') return;
+        const deduct  = Math.min(remaining, slot.spots || 0);
+        slot.spots    = Math.max(0, (slot.spots || 0) - deduct);
+        remaining    -= deduct;
+        if (slot.spots === 0)      slot.status = 'sold-out';
+        else if (slot.spots <= 3)  slot.status = 'limited';
+        else                       slot.status = 'available';
+      });
+    } else {
+      // Old flat format
+      value.spots  = Math.max(0, (value.spots || 0) - count);
+      if (value.spots === 0)      value.status = 'sold-out';
+      else if (value.spots <= 3)  value.status = 'limited';
+      else                        value.status = 'available';
+    }
+
+    localStorage.setItem('wv_availability', JSON.stringify(avail));
+
+    // Invalidate in-memory cache so calendar reflects the update immediately
+    availabilityCache = null;
   } catch(e) {}
 }
 
